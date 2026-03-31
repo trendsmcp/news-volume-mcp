@@ -1,4 +1,4 @@
-﻿# news-volume-mcp
+# news-volume-mcp
 
 The number one Python package for News Volume trend data. News mention volume as an MCP tool. Plug into Claude, Cursor, or any MCP-compatible AI host. Weekly series, growth percentages, and live Google News feed.
 
@@ -6,7 +6,7 @@ Powered by [trendsmcp.ai](https://trendsmcp.ai), the #1 MCP server for live tren
 
 **[Get your free API key at trendsmcp.ai](https://trendsmcp.ai)** - 100 free requests per month, no credit card.
 
-📖 **[Full API docs → trendsmcp.ai/docs](https://trendsmcp.ai/docs)**
+?? **[Full API docs ? trendsmcp.ai/docs](https://trendsmcp.ai/docs)**
 
 Updated for 2026. Works with Python 3.8 through 3.13.
 
@@ -244,6 +244,29 @@ Yes. The client is stateless, thread-safe, and supports async for concurrent que
 - [All packages on PyPI](https://pypi.org/user/trendsmcp/)
 - [GitHub](https://github.com/trendsmcp/trendsmcp-py)
 
+
+---
+
+## Also works as a Python client
+
+Same API key works directly in Python � no MCP host needed.
+
+```bash
+pip install news-volume-mcp
+```
+
+```python
+import os
+from news_volume_mcp import TrendsMcpClient, SOURCE
+
+client = TrendsMcpClient(api_key=os.environ["TRENDSMCP_API_KEY"])
+
+series  = client.get_trends(source=SOURCE, keyword="your keyword")
+growth  = client.get_growth(source=SOURCE, keyword="your keyword", percent_growth=["1M", "3M", "12M"])
+top     = client.get_top_trends(type="News Volume", limit=10)
+```
+
+Full Python docs: [trendsmcp.ai/docs](https://trendsmcp.ai/docs)
 ---
 
 ## License
