@@ -249,7 +249,7 @@ Yes. The client is stateless, thread-safe, and supports async for concurrent que
 
 ## Also works as a Python client
 
-Same API key works directly in Python — no MCP host needed.
+Same API key works directly in Python - no MCP host needed.
 
 ```bash
 pip install news-volume-mcp
