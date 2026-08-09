@@ -1,32 +1,32 @@
 # news-volume-mcp
 
-The number one Python package for News Volume trend data. News mention volume as an MCP tool. Plug into Claude, Cursor, or any MCP-compatible AI host. Weekly series, growth percentages, and live Google News feed.
+News mention volume as an MCP tool. Plug into Claude, Cursor, or any MCP-compatible AI host. Weekly series, growth percentages, and live Google News feed.
 
-Powered by [trendsmcp.ai](https://trendsmcp.ai), the #1 MCP server for live trend data.
+Powered by **[trendsmcp.ai](https://trendsmcp.ai)** — one API key, one client, **30+ data sources**: Google Search, YouTube, TikTok, Reddit, Amazon, Wikipedia, App Store, Steam, npm, news volume, news sentiment, live trending feeds, and more. No separate credentials per platform.
 
-**[Get your free API key at trendsmcp.ai](https://trendsmcp.ai)** - 100 free requests per month, no credit card.
+**[Get your free API key → trendsmcp.ai](https://trendsmcp.ai)** — 100 free requests/month, no credit card.
 
-?? **[Full API docs ? trendsmcp.ai/docs](https://trendsmcp.ai/docs)**
+📖 **[Full API docs → trendsmcp.ai/docs](https://trendsmcp.ai/docs)**
 
 Updated for 2026. Works with Python 3.8 through 3.13.
 
 ## Use as an MCP tool
 
-Add to your `mcp.json` (Claude Desktop, Cursor, or any MCP host):
+Add to your `mcp.json` (Claude Desktop, Cursor, Windsurf, VS Code, or any MCP host):
 
 ```json
 {
   "mcpServers": {
-    "trends": {
-      "command": "npx",
-      "args": ["-y", "trendsmcp"],
-      "env": { "TRENDS_API_KEY": "YOUR_API_KEY" }
+    "trends-mcp": {
+      "url": "https://api.trendsmcp.ai/mcp",
+      "transport": "http",
+      "headers": { "Authorization": "Bearer YOUR_API_KEY" }
     }
   }
 }
 ```
 
-Get your free key at **[trendsmcp.ai](https://trendsmcp.ai)**.
+Get your free key at **[trendsmcp.ai](https://trendsmcp.ai)**. Full setup instructions for Claude, Cursor, Windsurf, and VS Code at **[trendsmcp.ai/docs](https://trendsmcp.ai/docs)**.
 
 ---
 
@@ -43,7 +43,7 @@ trendsmcp is the managed alternative. We run the data infrastructure. You call a
 | 429 rate limit errors | constant | never |
 | Proxy required | often | never |
 | Breaks on platform changes | yes, regularly | no |
-| Platforms covered | 1 (Google only) | 13 |
+| Data sources covered | 1 (Google only) | 30+ |
 | Absolute volume estimates | no | yes |
 | Cross-platform growth | no | yes |
 | Async support | no | yes |
@@ -69,7 +69,7 @@ from news_volume_mcp import TrendsMcpClient, SOURCE
 
 client = TrendsMcpClient(api_key="YOUR_API_KEY")
 
-# 5-year weekly time series, no sleep(), no proxies, no 429s
+# 5-year weekly time series — no sleep(), no proxies, no 429s
 series = client.get_trends(source=SOURCE, keyword="climate change")
 print(series[0])
 # TrendsDataPoint(date='2026-03-28', value=72, keyword='climate change', source='news volume')
@@ -83,7 +83,7 @@ growth = client.get_growth(
 print(growth.results[0])
 # GrowthResult(period='3M', growth=14.5, direction='increase', ...)
 
-# What's trending right now
+# What's trending right now (across all live platforms)
 trending = client.get_top_trends(limit=10)
 print(trending.data)
 # [[1, 'topic one'], [2, 'topic two'], ...]
@@ -105,13 +105,15 @@ async def main():
 asyncio.run(main())
 ```
 
-Run multiple platform queries concurrently:
+Query multiple platforms concurrently with one key:
 
 ```python
-google, youtube, reddit = await asyncio.gather(
+google, youtube, reddit, amazon, tiktok = await asyncio.gather(
     client.get_trends(source="google search", keyword="climate change"),
     client.get_trends(source="youtube",       keyword="climate change"),
     client.get_trends(source="reddit",        keyword="climate change"),
+    client.get_trends(source="amazon",        keyword="climate change"),
+    client.get_trends(source="tiktok",        keyword="climate change"),
 )
 ```
 
@@ -124,16 +126,20 @@ google, youtube, reddit = await asyncio.gather(
 - **Investment research**: monitor Reddit discussion volume, news sentiment, and Wikipedia page view spikes as leading indicators
 - **Content strategy**: find what is growing on YouTube and TikTok before topics peak and competition saturates them
 - **Competitor tracking**: compare brand search volume growth across platforms over custom date ranges
+- **App analytics**: track App Store interest and app download estimates alongside Reddit and news buzz
 
 ---
 
 ## Works with
 
-- **Claude** (via MCP server at trendsmcp.ai)
-- **Cursor** (via MCP server at trendsmcp.ai)
-- **ChatGPT** (via MCP server at trendsmcp.ai)
-- **VS Code Copilot** (via MCP server at trendsmcp.ai)
+- **Claude** (via MCP — [trendsmcp.ai/docs](https://trendsmcp.ai/docs))
+- **Cursor** (via MCP — [trendsmcp.ai/docs](https://trendsmcp.ai/docs))
+- **ChatGPT** (via MCP — [trendsmcp.ai/docs](https://trendsmcp.ai/docs))
+- **Windsurf** (via MCP — [trendsmcp.ai/docs](https://trendsmcp.ai/docs))
+- **VS Code Copilot** (via MCP — [trendsmcp.ai/docs](https://trendsmcp.ai/docs))
 - **LangChain**: pass `TrendsMcpClient` output directly as tool results or context
+- **CrewAI**: wrap any method as a `Tool` and drop it into your crew
+- **AutoGen**: register as a callable tool for any agent
 - **LlamaIndex**: use trend series as structured data nodes for retrieval
 - **Pandas**: each `get_trends()` response converts to a DataFrame in one line
 
@@ -155,13 +161,13 @@ Calculates percentage growth between two points in time. Pass preset strings or 
 
 Returns today's live trending items. Omit `type` to get all feeds at once.
 
-**Available feeds:** `Google Trends` `YouTube` `TikTok Trending Hashtags` `Reddit Hot Posts` `Amazon Best Sellers Top Rated` `App Store Top Free` `Wikipedia Trending` `Spotify Top Podcasts` `X (Twitter)` and more.
+**Available live feeds:** `Google Trends` `Google News Top News` `YouTube Trending` `TikTok Trending Hashtags` `X (Twitter) Trending` `Reddit Hot Posts` `Reddit World News` `Wikipedia Trending` `Amazon Best Sellers Top Rated` `Amazon Best Sellers by Category` `App Store Top Free` `App Store Top Paid` `Google Play` `Spotify Top Podcasts` `Top Websites`
 
 ---
 
-## All 13 supported sources
+## All 30+ data sources
 
-One API key. One client. All platforms. No separate credentials for each.
+One API key. One client. Every platform. No separate credentials for each.
 
 | source | What it measures |
 |---|---|
@@ -171,15 +177,16 @@ One API key. One client. All platforms. No separate credentials for each.
 | `"google shopping"` | Google Shopping purchase intent |
 | `"youtube"` | YouTube search volume |
 | `"tiktok"` | TikTok hashtag volume |
-| `"reddit"` | Reddit mention volume |
+| `"reddit"` | Reddit subreddit subscribers over time |
 | `"amazon"` | Amazon product search volume |
 | `"wikipedia"` | Wikipedia page views |
 | `"news volume"` | News article mention count |
 | `"news sentiment"` | News sentiment score (positive/negative) |
+| `"app downloads"` | Mobile app download/install estimates (Android) |
 | `"npm"` | npm package weekly downloads |
 | `"steam"` | Steam concurrent player count |
 
-All values normalized 0 to 100 on the same scale so you can compare across platforms directly.
+All values normalized 0–100 so you can compare across platforms directly.
 
 ---
 
@@ -206,10 +213,13 @@ except TrendsMcpError as e:
 No. trendsmcp runs managed data infrastructure. Your Python code makes a single authenticated REST call. No scraping, no Selenium, no cookies, no proxies required.
 
 **Do I need a News Volume developer account, OAuth token, or platform API key?**
-No. One trendsmcp API key gives you access to all 13 sources.
+No. One trendsmcp API key gives you access to all 30+ data sources.
 
 **Will it break when News Volume changes its backend?**
 No. API stability is our responsibility. If something changes upstream, we update the backend. Your code keeps working.
+
+**Can I query multiple platforms with the same key?**
+Yes. One key covers every data source. Switch `source` to any of the 30+ values listed above.
 
 **Is there a free tier?**
 Yes, 100 requests per month, no credit card required. [Get your key at trendsmcp.ai](https://trendsmcp.ai).
@@ -221,18 +231,18 @@ Yes. The client is stateless, thread-safe, and supports async for concurrent que
 
 ## Related packages
 
-- [trendsmcp](https://pypi.org/project/trendsmcp/) - core package, all 13 sources
-- [youtube-trends-api](https://pypi.org/project/youtube-trends-api/) / [youtube-trends-mcp](https://pypi.org/project/youtube-trends-mcp/)
-- [reddit-trends-api](https://pypi.org/project/reddit-trends-api/) / [reddit-trends-mcp](https://pypi.org/project/reddit-trends-mcp/)
-- [google-search-trends-api](https://pypi.org/project/google-search-trends-api/) / [google-search-trends-mcp](https://pypi.org/project/google-search-trends-mcp/)
-- [amazon-trends-api](https://pypi.org/project/amazon-trends-api/) / [amazon-trends-mcp](https://pypi.org/project/amazon-trends-mcp/)
-- [tiktok-trends-api](https://pypi.org/project/tiktok-trends-api/) / [tiktok-trends-mcp](https://pypi.org/project/tiktok-trends-mcp/)
-- [wikipedia-trends-api](https://pypi.org/project/wikipedia-trends-api/) / [wikipedia-trends-mcp](https://pypi.org/project/wikipedia-trends-mcp/)
-- [npm-trends-api](https://pypi.org/project/npm-trends-api/) / [npm-trends-mcp](https://pypi.org/project/npm-trends-mcp/)
-- [steam-trends-api](https://pypi.org/project/steam-trends-api/) / [steam-trends-mcp](https://pypi.org/project/steam-trends-mcp/)
-- [app-store-trends-api](https://pypi.org/project/app-store-trends-api/) / [app-store-trends-mcp](https://pypi.org/project/app-store-trends-mcp/)
-- [news-volume-api](https://pypi.org/project/news-volume-api/) / [news-volume-mcp](https://pypi.org/project/news-volume-mcp/)
-- [news-sentiment-api](https://pypi.org/project/news-sentiment-api/) / [news-sentiment-mcp](https://pypi.org/project/news-sentiment-mcp/)
+- [trendsmcp](https://pypi.org/project/trendsmcp/) — core package, all 30+ data sources
+- [youtube-trends-api](https://pypi.org/project/youtube-trends-api/) / [youtube-trends-mcp](https://pypi.org/project/youtube-trends-mcp/) / [youtube-trends-agent](https://pypi.org/project/youtube-trends-agent/)
+- [reddit-trends-api](https://pypi.org/project/reddit-trends-api/) / [reddit-trends-mcp](https://pypi.org/project/reddit-trends-mcp/) / [reddit-trends-agent](https://pypi.org/project/reddit-trends-agent/)
+- [google-search-trends-api](https://pypi.org/project/google-search-trends-api/) / [google-search-trends-mcp](https://pypi.org/project/google-search-trends-mcp/) / [google-search-trends-agent](https://pypi.org/project/google-search-trends-agent/)
+- [amazon-trends-api](https://pypi.org/project/amazon-trends-api/) / [amazon-trends-mcp](https://pypi.org/project/amazon-trends-mcp/) / [amazon-trends-agent](https://pypi.org/project/amazon-trends-agent/)
+- [tiktok-trends-api](https://pypi.org/project/tiktok-trends-api/) / [tiktok-trends-mcp](https://pypi.org/project/tiktok-trends-mcp/) / [tiktok-trends-agent](https://pypi.org/project/tiktok-trends-agent/)
+- [wikipedia-trends-api](https://pypi.org/project/wikipedia-trends-api/) / [wikipedia-trends-mcp](https://pypi.org/project/wikipedia-trends-mcp/) / [wikipedia-trends-agent](https://pypi.org/project/wikipedia-trends-agent/)
+- [npm-trends-api](https://pypi.org/project/npm-trends-api/) / [npm-trends-mcp](https://pypi.org/project/npm-trends-mcp/) / [npm-trends-agent](https://pypi.org/project/npm-trends-agent/)
+- [steam-trends-api](https://pypi.org/project/steam-trends-api/) / [steam-trends-mcp](https://pypi.org/project/steam-trends-mcp/) / [steam-trends-agent](https://pypi.org/project/steam-trends-agent/)
+- [app-store-trends-api](https://pypi.org/project/app-store-trends-api/) / [app-store-trends-mcp](https://pypi.org/project/app-store-trends-mcp/) / [app-store-trends-agent](https://pypi.org/project/app-store-trends-agent/)
+- [news-volume-api](https://pypi.org/project/news-volume-api/) / [news-volume-mcp](https://pypi.org/project/news-volume-mcp/) / [news-volume-agent](https://pypi.org/project/news-volume-agent/)
+- [news-sentiment-api](https://pypi.org/project/news-sentiment-api/) / [news-sentiment-mcp](https://pypi.org/project/news-sentiment-mcp/) / [news-sentiment-agent](https://pypi.org/project/news-sentiment-agent/)
 
 ---
 
@@ -244,29 +254,6 @@ Yes. The client is stateless, thread-safe, and supports async for concurrent que
 - [All packages on PyPI](https://pypi.org/user/trendsmcp/)
 - [GitHub](https://github.com/trendsmcp/trendsmcp-py)
 
-
----
-
-## Also works as a Python client
-
-Same API key works directly in Python - no MCP host needed.
-
-```bash
-pip install news-volume-mcp
-```
-
-```python
-import os
-from news_volume_mcp import TrendsMcpClient, SOURCE
-
-client = TrendsMcpClient(api_key=os.environ["TRENDSMCP_API_KEY"])
-
-series  = client.get_trends(source=SOURCE, keyword="your keyword")
-growth  = client.get_growth(source=SOURCE, keyword="your keyword", percent_growth=["1M", "3M", "12M"])
-top     = client.get_top_trends(type="News Volume", limit=10)
-```
-
-Full Python docs: [trendsmcp.ai/docs](https://trendsmcp.ai/docs)
 ---
 
 ## License

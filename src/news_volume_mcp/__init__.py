@@ -1,7 +1,7 @@
 """
 news-volume-mcp -- News mention volume as an MCP tool. Plug into Claude, Cursor, or any MCP-compatible AI host. Weekly series, growth percentages, and live Google News feed.
 
-Get your free API key at https://trendsmcp.ai
+Get your free API key at https://trendsmcp.ai/account?tab=signup
 Full docs at https://trendsmcp.ai/docs
 """
 
@@ -11,6 +11,8 @@ from trendsmcp.types import (
     TrendsDataPoint,
     GetTrendsParams,
     GetTrendsResponse,
+    GetTimeSeriesParams,
+    GetTimeSeriesResponse,
     GrowthPreset,
     CustomGrowthPeriod,
     GetGrowthParams,
@@ -25,7 +27,7 @@ from trendsmcp.types import (
 # Default source for this package. Pass to 'source' in any request.
 SOURCE: TrendsSource = "news volume"
 
-__version__ = "1.0.0"
+__version__ = "1.1.0"
 __all__ = [
     "TrendsMcpClient",
     "AsyncTrendsMcpClient",
@@ -35,6 +37,8 @@ __all__ = [
     "TrendsDataPoint",
     "GetTrendsParams",
     "GetTrendsResponse",
+    "GetTimeSeriesParams",
+    "GetTimeSeriesResponse",
     "GrowthPreset",
     "CustomGrowthPeriod",
     "GetGrowthParams",
