@@ -10,6 +10,26 @@ Powered by **[trendsmcp.ai](https://trendsmcp.ai)** — one API key, one client,
 
 Updated for 2026. Works with Python 3.8 through 3.13.
 
+## Quick install
+
+Same four clients as the site hero. [Get a free key](https://www.trendsmcp.ai/account) first (100 req/mo). Claude and ChatGPT sign you in with OAuth. Cursor and VS Code: click, then put your key from `/account` if the deeplink used a placeholder.
+
+<p align="center">
+  <a href="https://claude.ai/customize/connectors?modal=add-custom-connector&connectorName=Trends%20MCP&connectorUrl=https%3A%2F%2Fwww.trendsmcp.ai%2Fmcp"><img src="https://img.shields.io/badge/Add_to-Claude-DA7756?style=for-the-badge&logo=claude&logoColor=white" alt="Add to Claude"></a>
+  <a href="cursor://anysphere.cursor-deeplink/mcp/install?name=trends-mcp&config=eyJ1cmwiOiJodHRwczovL2FwaS50cmVuZHNtY3AuYWkvbWNwIiwidHJhbnNwb3J0IjoiaHR0cCIsImhlYWRlcnMiOnsiQXV0aG9yaXphdGlvbiI6IkJlYXJlciBZT1VSX0FQSV9LRVkifX0%3D"><img src="https://img.shields.io/badge/Add_to-Cursor-000000?style=for-the-badge" alt="Add to Cursor"></a>
+  <a href="https://chatgpt.com/plugins#settings/Connectors?create-connector=true&redirectAfter=%2Fplugins"><img src="https://img.shields.io/badge/Add_to-ChatGPT-10A37F?style=for-the-badge" alt="Add to ChatGPT"></a>
+  <a href="https://www.trendsmcp.ai/account"><img src="https://img.shields.io/badge/Add_to-VS_Code-007ACC?style=for-the-badge&logo=visualstudiocode&logoColor=white" alt="Add to VS Code"></a>
+</p>
+
+| Client | After you click |
+|---|---|
+| **Claude** | Connector name and URL are prefilled (`https://www.trendsmcp.ai/mcp`). Confirm, then authorize. |
+| **Cursor** | Approve the MCP install. Replace `YOUR_API_KEY` if prompted. |
+| **ChatGPT** | Enable Developer mode (Profile → Settings → Security). Name `Trends MCP`, URL `https://www.trendsmcp.ai/mcp`, then authorize. |
+| **VS Code** | Sign in on the account page and use the **VS Code** button so the key is included. |
+
+Then ask: `Using TrendsMCP, what's trending on Google right now?`
+
 ## Use as an MCP tool
 
 Add to your `mcp.json` (Claude Desktop, Cursor, Windsurf, VS Code, or any MCP host):
