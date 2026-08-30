@@ -4,46 +4,28 @@ build-backend = "hatchling.build"
 
 [project]
 name = "news-volume-mcp"
-version = "1.1.0"
-description = "News mention volume as an MCP tool. Plug into Claude, Cursor, or any MCP-compatible AI host. Weekly series, growth percentages, and live Google News feed. Powered by trendsmcp.ai"
+version = "1.0.7"
+description = "Stdio MCP server for News Volume MCP. Same three tools as Trends MCP. Forwards tool calls to api.trendsmcp.ai with your API key."
 readme = "README.md"
 license = "MIT"
 license-files = ["LICENSE"]
-requires-python = ">=3.8"
+requires-python = ">=3.10"
 authors = [{ name = "Trends MCP", email = "hello@trendsmcp.ai" }]
-keywords = [
-  "news-volume",
-  "news-mcp",
-  "mcp",
-  "model-context-protocol",
-  "media-monitoring",
-  "ai-tools",
-  "claude",
-  "cursor",
-  "journalism",
-  "trendsmcp"
+dependencies = [
+  "mcp>=1.12.0,<2",
+  "httpx>=0.24.0",
 ]
-classifiers = [
-  "Development Status :: 5 - Production/Stable",
-  "Intended Audience :: Developers",
-  "License :: OSI Approved :: MIT License",
-  "Programming Language :: Python :: 3",
-  "Programming Language :: Python :: 3.8",
-  "Programming Language :: Python :: 3.9",
-  "Programming Language :: Python :: 3.10",
-  "Programming Language :: Python :: 3.11",
-  "Programming Language :: Python :: 3.12",
-  "Programming Language :: Python :: 3.13",
-  "Topic :: Internet :: WWW/HTTP",
-  "Topic :: Software Development :: Libraries :: Python Modules",
-]
-dependencies = ["trendsmcp>=1.1.0"]
+
+[project.scripts]
+news-volume-mcp = "trends_mcp_server:main"
 
 [project.urls]
 Homepage = "https://trendsmcp.ai"
 Documentation = "https://trendsmcp.ai/docs"
-Repository = "https://github.com/trendsmcp/news-volume-mcp"
-"Get API Key" = "https://trendsmcp.ai/account?tab=signup"
+Repository = "https://github.com/trendsmcp-ai/news-volume-mcp"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/news_volume_mcp"]
+packages = ["src/trends_mcp_server"]
+
+[tool.hatch.build.targets.wheel.sources]
+"src/trends_mcp_server" = "trends_mcp_server"

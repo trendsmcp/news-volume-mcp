@@ -1,0 +1,53 @@
+﻿{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "ai.trendsmcp/news-volume-mcp",
+  "title": "News Volume MCP",
+  "description": "News Volume MCP: live trend data for AI agents from 25+ platforms. Same three tools as Trends MCP (get_time_series, get_growth, get_top_trends).",
+  "version": "1.0.7",
+  "websiteUrl": "https://trendsmcp.ai",
+  "repository": {
+    "url": "https://github.com/trendsmcp-ai/news-volume-mcp",
+    "source": "github"
+  },
+  "icons": [
+    {
+      "src": "https://www.trendsmcp.ai/static/pages/trendsmcp/assets/trend.svg",
+      "mimeType": "image/svg+xml",
+      "sizes": ["any"]
+    }
+  ],
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://api.trendsmcp.ai/mcp",
+      "headers": [
+        {
+          "name": "Authorization",
+          "description": "Bearer token. Get your free API key at https://trendsmcp.ai",
+          "isRequired": true,
+          "isSecret": true
+        }
+      ]
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "pypi",
+      "identifier": "news-volume-mcp",
+      "version": "1.0.7",
+      "runtimeHint": "uvx",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "name": "TRENDSMCP_API_KEY",
+          "description": "Your Trends MCP API key. Get a free key at https://trendsmcp.ai/account (100 requests/month, no credit card).",
+          "isRequired": true,
+          "isSecret": true,
+          "format": "string"
+        }
+      ]
+    }
+  ]
+}
